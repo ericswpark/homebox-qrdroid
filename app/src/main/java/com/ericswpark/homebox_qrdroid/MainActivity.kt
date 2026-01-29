@@ -1,4 +1,4 @@
-package com.example.homebox_qrdroid
+package com.ericswpark.homebox_qrdroid
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -29,7 +29,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.homebox_qrdroid.ui.theme.HomeboxqrdroidTheme
+import com.ericswpark.homebox_qrdroid.ui.theme.HomeboxqrdroidTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {

@@ -1,4 +1,4 @@
-package com.example.homebox_qrdroid
+package com.ericswpark.homebox_qrdroid
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

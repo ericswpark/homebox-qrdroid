@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.homebox_qrdroid"
+    namespace = "com.ericswpark.homebox_qrdroid"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.example.homebox_qrdroid"
+        applicationId = "com.ericswpark.homebox_qrdroid"
         minSdk = 36
         targetSdk = 36
         versionCode = 1

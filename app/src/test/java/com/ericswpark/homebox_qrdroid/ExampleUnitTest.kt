@@ -1,4 +1,4 @@
-package com.example.homebox_qrdroid
+package com.ericswpark.homebox_qrdroid
 
 import org.junit.Test
 
