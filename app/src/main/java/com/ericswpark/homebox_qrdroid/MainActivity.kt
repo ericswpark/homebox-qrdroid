@@ -188,8 +188,20 @@ fun MainScreen(
                         val formattedAssetId = "${paddedAssetId.take(3)}-${paddedAssetId.substring(3)}"
                         val qrContent = "$url/a/$formattedAssetId"
                         val bitmap = generateQrCode(qrContent, formattedAssetId)
-                        qrCodeBitmap = bitmap
-                        saveQrCode(bitmap, "label-$formattedAssetId.png")
+
+                        val finalBitmap = if (cableMode) {
+                            val padding = 80
+                            val newBitmap = createBitmap(bitmap.width * 2 + padding, bitmap.height, Bitmap.Config.ARGB_8888)
+                            val canvas = android.graphics.Canvas(newBitmap)
+                            canvas.drawBitmap(bitmap, 0f, 0f, null)
+                            canvas.drawBitmap(bitmap, (bitmap.width + padding).toFloat(), 0f, null)
+                            newBitmap
+                        } else {
+                            bitmap
+                        }
+
+                        qrCodeBitmap = finalBitmap
+                        saveQrCode(finalBitmap, "label-$formattedAssetId.png")
                     }
                 }
             },
