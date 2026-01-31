@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,6 +22,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
@@ -92,6 +94,7 @@ fun TopBar(modifier: Modifier = Modifier, context: android.content.Context = Loc
 @Composable
 fun MainScreen(modifier: Modifier = Modifier) {
     var assetId by remember { mutableStateOf("") }
+    var cableMode by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier
@@ -124,6 +127,17 @@ fun MainScreen(modifier: Modifier = Modifier) {
                 .weight(1f)
                 .fillMaxSize()
         )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text("Cable")
+            Switch(
+                checked = cableMode,
+                onCheckedChange = { cableMode = it }
+            )
+        }
         Button(
             onClick = { /* TODO */ },
             modifier = Modifier.fillMaxWidth()
