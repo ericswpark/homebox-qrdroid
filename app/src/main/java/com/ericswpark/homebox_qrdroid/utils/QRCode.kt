@@ -18,7 +18,7 @@ import java.io.OutputStream
 import java.util.EnumMap
 
 
-const val QR_SIZE = 140
+const val QR_SIZE = 128
 
 fun generateQrCode(content: String, label: String): Bitmap {
     val writer = QRCodeWriter()
