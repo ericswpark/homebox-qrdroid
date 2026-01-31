@@ -72,9 +72,10 @@ class MainActivity : ComponentActivity() {
                         TopBar()
                     }
                 ) { innerPadding ->
+                    val homeboxServerUrl by settingsRepository.homeboxServerUrl.collectAsState(initial = null)
                     MainScreen(
                         modifier = Modifier.padding(innerPadding),
-                        settingsRepository = settingsRepository,
+                        homeboxServerUrl = homeboxServerUrl,
                         generateQrCode = ::generateQrCode,
                         saveQrCode = ::saveQrCodeToStorage
                     )
@@ -155,14 +156,13 @@ fun TopBar(modifier: Modifier = Modifier, context: android.content.Context = Loc
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
-    settingsRepository: SettingsRepository,
+    homeboxServerUrl: String?,
     generateQrCode: (String) -> Bitmap,
     saveQrCode: (Bitmap, String) -> Unit
 ) {
     var assetId by remember { mutableStateOf("") }
     var cableMode by remember { mutableStateOf(false) }
     var qrCodeBitmap by remember { mutableStateOf<Bitmap?>(null) }
-    val homeboxServerUrl by settingsRepository.homeboxServerUrl.collectAsState(initial = null)
     val coroutineScope = rememberCoroutineScope()
 
     Column(
@@ -236,17 +236,22 @@ fun MainScreen(
     }
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun MainScreenPreview() {
-//    HomeboxqrdroidTheme {
-//        Scaffold(
-//            modifier = Modifier.fillMaxSize(),
-//            topBar = {
-//                TopBar()
-//            }
-//        ) { innerPadding ->
-//            MainScreen(modifier = Modifier.padding(innerPadding))
-//        }
-//    }
-//}
+@Preview(showBackground = true)
+@Composable
+fun MainScreenPreview() {
+    HomeboxqrdroidTheme {
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            topBar = {
+                TopBar()
+            }
+        ) { innerPadding ->
+            MainScreen(
+                modifier = Modifier.padding(innerPadding),
+                homeboxServerUrl = "https://homebox.example.com",
+                generateQrCode = { createBitmap(512, 512, Bitmap.Config.ARGB_8888) },
+                saveQrCode = { _, _ -> }
+            )
+        }
+    }
+}
