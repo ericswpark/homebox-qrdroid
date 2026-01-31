@@ -43,13 +43,13 @@ fun generateQrCode(content: String, label: String): Bitmap {
 
     val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.BLACK
-        textSize = 60f
+        textSize = 20f
         textAlign = Paint.Align.CENTER
     }
 
     val textBounds = Rect()
     paint.getTextBounds(label, 0, label.length, textBounds)
-    val labelPadding = 20
+    val labelPadding = 0
     val labelHeight = textBounds.height() + 2 * labelPadding
 
     val finalBitmap = createBitmap(width, height + labelHeight, Bitmap.Config.RGB_565)
