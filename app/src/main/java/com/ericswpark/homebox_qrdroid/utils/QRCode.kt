@@ -13,6 +13,7 @@ import androidx.core.graphics.createBitmap
 import androidx.core.graphics.set
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
+import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.QRCodeWriter
 import java.io.OutputStream
 import java.util.EnumMap
@@ -20,14 +21,18 @@ import java.util.EnumMap
 
 const val QR_SIZE = 128
 
-fun generateQrCode(content: String, label: String): Bitmap {
+fun getQrCodeMatrix(content: String): BitMatrix {
     val writer = QRCodeWriter()
 
     val hints: MutableMap<EncodeHintType?, Any?> =
         EnumMap<EncodeHintType?, Any?>(EncodeHintType::class.java)
-    hints[EncodeHintType.MARGIN] = 1
+    hints[EncodeHintType.MARGIN] = 0
 
-    val bitMatrix = writer.encode(content, BarcodeFormat.QR_CODE, QR_SIZE, QR_SIZE, hints)
+    return writer.encode(content, BarcodeFormat.QR_CODE, QR_SIZE, QR_SIZE, hints)
+}
+
+fun generateQrCode(content: String, label: String): Bitmap {
+    val bitMatrix = getQrCodeMatrix(content)
     val width = bitMatrix.width
     val height = bitMatrix.height
     val qrBitmap = createBitmap(width, height, Bitmap.Config.RGB_565)
