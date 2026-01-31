@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">homebox-qrdroid</string>
+    <string name="activity_settings_title">Settings</string>
 </resources>

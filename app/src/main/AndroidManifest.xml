@@ -22,6 +22,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:label="@string/activity_settings_title"
+            android:theme="@style/Theme.Homeboxqrdroid" />
     </application>
 
 </manifest>
