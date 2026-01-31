@@ -20,7 +20,6 @@ import java.util.EnumMap
 
 
 const val QR_SIZE = 128
-const val TRIM_QUIET_ZONE = true
 
 fun getQrCodeMatrix(content: String): BitMatrix {
     val writer = QRCodeWriter()
@@ -73,8 +72,8 @@ fun getQrCode(content: String): Bitmap {
     return qrBitmap
 }
 
-fun generateQrCode(content: String, label: String): Bitmap {
-    val qrBitmap = if (TRIM_QUIET_ZONE) {
+fun generateQrCode(content: String, label: String, trimQuietZone: Boolean): Bitmap {
+    val qrBitmap = if (trimQuietZone) {
         getTrimmedQrCode(content)
     } else {
         getQrCode(content)
@@ -96,7 +95,7 @@ fun generateQrCode(content: String, label: String): Bitmap {
     paint.getTextBounds(label, 0, label.length, textBounds)
 
     // Have label cut into border (quiet zone) of QR code
-    val borderCut = if (TRIM_QUIET_ZONE) {0} else {5}
+    val borderCut = if (trimQuietZone) {0} else {5}
 
     val labelHeight = textBounds.height() - borderCut
 

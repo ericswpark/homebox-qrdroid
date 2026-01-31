@@ -16,9 +16,21 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
         initialValue = null
     )
 
+    val trimQrCodeQuietZone: StateFlow<Boolean> = settingsRepository.trimQrCodeQuietZone.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = false
+    )
+
     fun setHomeboxServerUrl(url: String) {
         viewModelScope.launch {
             settingsRepository.setHomeboxServerUrl(url)
+        }
+    }
+
+    fun setTrimQrCodeQuietZone(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setTrimQrCodeQuietZone(enabled)
         }
     }
 }

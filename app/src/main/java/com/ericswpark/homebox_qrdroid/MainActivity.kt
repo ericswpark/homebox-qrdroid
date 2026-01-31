@@ -72,9 +72,13 @@ class MainActivity : ComponentActivity() {
                     val homeboxServerUrl by settingsRepository.homeboxServerUrl.collectAsState(
                         initial = null
                     )
+                    val trimQrCodeQuietZone by settingsRepository.trimQrCodeQuietZone.collectAsState(
+                        initial = false
+                    )
                     MainScreen(
                         modifier = Modifier.padding(innerPadding),
                         homeboxServerUrl = homeboxServerUrl,
+                        trimQrCodeQuietZone = trimQrCodeQuietZone,
                         generateQrCode = ::generateQrCode,
                         saveQrCode = { bitmap, displayName ->
                             saveQrCodeToStorage(this, bitmap, displayName)
@@ -112,7 +116,8 @@ fun TopBar(modifier: Modifier = Modifier, context: Context = LocalContext.curren
 fun MainScreen(
     modifier: Modifier = Modifier,
     homeboxServerUrl: String?,
-    generateQrCode: (String, String) -> Bitmap,
+    trimQrCodeQuietZone: Boolean,
+    generateQrCode: (String, String, Boolean) -> Bitmap,
     saveQrCode: (Bitmap, String) -> Unit
 ) {
     var assetId by remember { mutableStateOf("") }
@@ -179,7 +184,7 @@ fun MainScreen(
                         val formattedAssetId =
                             "${paddedAssetId.take(3)}-${paddedAssetId.substring(3)}"
                         val qrContent = "$homeboxServerUrl/a/$formattedAssetId"
-                        val bitmap = generateQrCode(qrContent, formattedAssetId)
+                        val bitmap = generateQrCode(qrContent, formattedAssetId, trimQrCodeQuietZone)
 
                         val finalBitmap = if (cableMode) {
                             val padding = 80
@@ -229,7 +234,8 @@ fun MainScreenPreview() {
             MainScreen(
                 modifier = Modifier.padding(innerPadding),
                 homeboxServerUrl = "https://homebox.example.com",
-                generateQrCode = { _, _ -> createBitmap(512, 512, Bitmap.Config.ARGB_8888) },
+                trimQrCodeQuietZone = false,
+                generateQrCode = { _, _, _ -> createBitmap(512, 512, Bitmap.Config.ARGB_8888) },
                 saveQrCode = { _, _ -> })
         }
     }
