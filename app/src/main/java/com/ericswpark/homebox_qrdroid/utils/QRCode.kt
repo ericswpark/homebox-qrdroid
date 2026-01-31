@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.provider.MediaStore
+import android.widget.Toast
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.set
 import com.google.zxing.BarcodeFormat
@@ -46,4 +47,6 @@ fun saveQrCodeToStorage(context: Context, bitmap: Bitmap, displayName: String) {
         values.put(MediaStore.Images.Media.IS_PENDING, 0)
         resolver.update(it, values, null, null)
     }
+
+    Toast.makeText(context, "Saved $displayName", Toast.LENGTH_SHORT).show()
 }
