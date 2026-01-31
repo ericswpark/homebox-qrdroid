@@ -10,6 +10,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,6 +26,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -160,13 +162,19 @@ fun MainScreen(
                     .fillMaxSize()
             )
         } else {
-            Icon(
-                imageVector = Icons.Default.QrCode,
-                contentDescription = "QR Code",
+            Box(
                 modifier = Modifier
                     .weight(1f)
-                    .fillMaxSize()
-            )
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.QrCode,
+                    contentDescription = "QR Code",
+                    modifier = Modifier.fillMaxSize(0.8f),
+                    tint = LocalContentColor.current.copy(alpha = 0.4f)
+                )
+            }
         }
         Row(
             modifier = Modifier.fillMaxWidth(),
