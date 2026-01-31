@@ -18,6 +18,8 @@ import java.io.OutputStream
 import java.util.EnumMap
 
 
+const val QR_SIZE = 140
+
 fun generateQrCode(content: String, label: String): Bitmap {
     val writer = QRCodeWriter()
 
@@ -25,7 +27,7 @@ fun generateQrCode(content: String, label: String): Bitmap {
         EnumMap<EncodeHintType?, Any?>(EncodeHintType::class.java)
     hints[EncodeHintType.MARGIN] = 1
 
-    val bitMatrix = writer.encode(content, BarcodeFormat.QR_CODE, 512, 512, hints)
+    val bitMatrix = writer.encode(content, BarcodeFormat.QR_CODE, QR_SIZE, QR_SIZE, hints)
     val width = bitMatrix.width
     val height = bitMatrix.height
     val qrBitmap = createBitmap(width, height, Bitmap.Config.RGB_565)
