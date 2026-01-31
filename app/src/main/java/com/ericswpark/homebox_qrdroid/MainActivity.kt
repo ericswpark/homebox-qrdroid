@@ -13,8 +13,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -59,15 +61,27 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(modifier: Modifier = Modifier, context: android.content.Context = LocalContext.current) {
+    var showMenu by remember { mutableStateOf(false) }
+
     TopAppBar(
         title = { Text("homebox-qrdroid") },
         actions = {
-            IconButton(onClick = {
-                context.startActivity(Intent(context, SettingsActivity::class.java))
-            }) {
+            IconButton(onClick = { showMenu = !showMenu }) {
                 Icon(
-                    imageVector = Icons.Default.Settings,
-                    contentDescription = "Settings"
+                    imageVector = Icons.Default.MoreVert,
+                    contentDescription = "More"
+                )
+            }
+            DropdownMenu(
+                expanded = showMenu,
+                onDismissRequest = { showMenu = false }
+            ) {
+                DropdownMenuItem(
+                    text = { Text("Settings") },
+                    onClick = {
+                        context.startActivity(Intent(context, SettingsActivity::class.java))
+                        showMenu = false
+                    }
                 )
             }
         },
