@@ -89,6 +89,7 @@ fun generateQrCode(content: String, label: String, trimQuietZone: Boolean): Bitm
         color = Color.BLACK
         textSize = 20f
         textAlign = Paint.Align.CENTER
+        typeface = android.graphics.Typeface.DEFAULT_BOLD
     }
 
     val textBounds = Rect()
