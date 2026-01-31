@@ -118,7 +118,7 @@ fun TopBar(modifier: Modifier = Modifier, context: Context = LocalContext.curren
 fun MainScreen(
     modifier: Modifier = Modifier,
     homeboxServerUrl: String?,
-    generateQrCode: (String) -> Bitmap,
+    generateQrCode: (String, String) -> Bitmap,
     saveQrCode: (Bitmap, String) -> Unit
 ) {
     var assetId by remember { mutableStateOf("") }
@@ -187,7 +187,7 @@ fun MainScreen(
                         val paddedAssetId = assetIdDigits.padStart(6, '0')
                         val formattedAssetId = "${paddedAssetId.take(3)}-${paddedAssetId.substring(3)}"
                         val qrContent = "$url/a/$formattedAssetId"
-                        val bitmap = generateQrCode(qrContent)
+                        val bitmap = generateQrCode(qrContent, formattedAssetId)
                         qrCodeBitmap = bitmap
                         saveQrCode(bitmap, "label-$formattedAssetId.png")
                     }
@@ -213,7 +213,7 @@ fun MainScreenPreview() {
             MainScreen(
                 modifier = Modifier.padding(innerPadding),
                 homeboxServerUrl = "https://homebox.example.com",
-                generateQrCode = { createBitmap(512, 512, Bitmap.Config.ARGB_8888) },
+                generateQrCode = { _, _ -> createBitmap(512, 512, Bitmap.Config.ARGB_8888) },
                 saveQrCode = { _, _ -> }
             )
         }

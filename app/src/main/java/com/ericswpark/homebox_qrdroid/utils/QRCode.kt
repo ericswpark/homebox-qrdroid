@@ -3,7 +3,10 @@ package com.ericswpark.homebox_qrdroid.utils
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Rect
 import android.provider.MediaStore
 import android.widget.Toast
 import androidx.core.graphics.createBitmap
@@ -12,18 +15,44 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 import java.io.OutputStream
 
-fun generateQrCode(content: String): Bitmap {
+fun generateQrCode(content: String, label: String): Bitmap {
     val writer = QRCodeWriter()
     val bitMatrix = writer.encode(content, BarcodeFormat.QR_CODE, 512, 512)
     val width = bitMatrix.width
     val height = bitMatrix.height
-    val bitmap = createBitmap(width, height, Bitmap.Config.RGB_565)
+    val qrBitmap = createBitmap(width, height, Bitmap.Config.RGB_565)
     for (x in 0 until width) {
         for (y in 0 until height) {
-            bitmap[x, y] = if (bitMatrix[x, y]) Color.BLACK else Color.WHITE
+            qrBitmap[x, y] = if (bitMatrix[x, y]) Color.BLACK else Color.WHITE
         }
     }
-    return bitmap
+
+    if (label.isBlank()) {
+        return qrBitmap
+    }
+
+    val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.BLACK
+        textSize = 60f
+        textAlign = Paint.Align.CENTER
+    }
+
+    val textBounds = Rect()
+    paint.getTextBounds(label, 0, label.length, textBounds)
+    val labelPadding = 20
+    val labelHeight = textBounds.height() + 2 * labelPadding
+
+    val finalBitmap = createBitmap(width, height + labelHeight, Bitmap.Config.RGB_565)
+    val canvas = Canvas(finalBitmap)
+
+    canvas.drawColor(Color.WHITE)
+    canvas.drawBitmap(qrBitmap, 0f, 0f, null)
+
+    val textX = canvas.width / 2f
+    val textY = (height + labelPadding + textBounds.height()).toFloat()
+    canvas.drawText(label, textX, textY, paint)
+
+    return finalBitmap
 }
 
 fun saveQrCodeToStorage(context: Context, bitmap: Bitmap, displayName: String) {
