@@ -49,8 +49,11 @@ fun generateQrCode(content: String, label: String): Bitmap {
 
     val textBounds = Rect()
     paint.getTextBounds(label, 0, label.length, textBounds)
-    val labelPadding = 0
-    val labelHeight = textBounds.height() + 2 * labelPadding
+
+    // Have label cut into border (quiet zone) of QR code
+    val borderCut = 5
+
+    val labelHeight = textBounds.height() - borderCut
 
     val finalBitmap = createBitmap(width, height + labelHeight, Bitmap.Config.RGB_565)
     val canvas = Canvas(finalBitmap)
@@ -59,7 +62,9 @@ fun generateQrCode(content: String, label: String): Bitmap {
     canvas.drawBitmap(qrBitmap, 0f, 0f, null)
 
     val textX = canvas.width / 2f
-    val textY = (height + labelPadding + textBounds.height()).toFloat()
+
+
+    val textY = (height + textBounds.height() - borderCut).toFloat()
     canvas.drawText(label, textX, textY, paint)
 
     return finalBitmap
