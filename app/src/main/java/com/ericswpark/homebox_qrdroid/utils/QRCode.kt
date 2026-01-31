@@ -106,8 +106,6 @@ fun generateQrCode(content: String, label: String, trimQuietZone: Boolean): Bitm
     canvas.drawBitmap(qrBitmap, 0f, 0f, null)
 
     val textX = canvas.width / 2f
-
-
     val textY = (height + textBounds.height() - borderCut).toFloat()
     canvas.drawText(label, textX, textY, paint)
 
