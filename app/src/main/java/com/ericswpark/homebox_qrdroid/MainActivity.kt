@@ -183,10 +183,13 @@ fun MainScreen(
                 coroutineScope.launch {
                     val url = homeboxServerUrl
                     if (!url.isNullOrBlank() && assetId.isNotBlank()) {
-                        val qrContent = "$url/a/$assetId"
+                        val assetIdDigits = assetId.filter { it.isDigit() }
+                        val paddedAssetId = assetIdDigits.padStart(6, '0')
+                        val formattedAssetId = "${paddedAssetId.take(3)}-${paddedAssetId.substring(3)}"
+                        val qrContent = "$url/a/$formattedAssetId"
                         val bitmap = generateQrCode(qrContent)
                         qrCodeBitmap = bitmap
-                        saveQrCode(bitmap, "homebox-qrdroid-$assetId.png")
+                        saveQrCode(bitmap, "label-$formattedAssetId.png")
                     }
                 }
             },
