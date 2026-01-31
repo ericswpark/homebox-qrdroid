@@ -43,7 +43,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             HomeboxqrdroidTheme {
-                val context = LocalContext.current
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     topBar = {
