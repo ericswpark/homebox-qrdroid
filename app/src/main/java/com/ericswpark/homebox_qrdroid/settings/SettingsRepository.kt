@@ -1,5 +1,4 @@
-
-package com.ericswpark.homebox_qrdroid
+package com.ericswpark.homebox_qrdroid.settings
 
 import android.content.Context
 import androidx.datastore.core.DataStore

@@ -1,5 +1,4 @@
-
-package com.ericswpark.homebox_qrdroid
+package com.ericswpark.homebox_qrdroid.settings
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -29,6 +28,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ericswpark.homebox_qrdroid.ui.theme.HomeboxqrdroidTheme
@@ -159,7 +159,7 @@ private fun EditUrlDialog(
 @Composable
 fun SettingsScreenPreview() {
     HomeboxqrdroidTheme {
-        val viewModel = SettingsViewModel(SettingsRepository(androidx.compose.ui.platform.LocalContext.current))
+        val viewModel = SettingsViewModel(SettingsRepository(LocalContext.current))
         SettingsScreen(viewModel = viewModel, onBackPressed = {})
     }
 }

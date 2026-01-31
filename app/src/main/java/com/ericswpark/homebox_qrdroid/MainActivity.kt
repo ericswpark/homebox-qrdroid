@@ -39,6 +39,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ericswpark.homebox_qrdroid.settings.SettingsActivity
 import com.ericswpark.homebox_qrdroid.ui.theme.HomeboxqrdroidTheme
 
 class MainActivity : ComponentActivity() {

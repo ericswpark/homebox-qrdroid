@@ -1,5 +1,4 @@
-
-package com.ericswpark.homebox_qrdroid
+package com.ericswpark.homebox_qrdroid.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
