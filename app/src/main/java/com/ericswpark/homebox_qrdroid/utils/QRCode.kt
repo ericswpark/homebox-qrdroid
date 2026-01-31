@@ -29,7 +29,7 @@ fun saveQrCodeToStorage(context: Context, bitmap: Bitmap, displayName: String) {
     val values = ContentValues().apply {
         put(MediaStore.Images.Media.DISPLAY_NAME, displayName)
         put(MediaStore.Images.Media.MIME_TYPE, "image/png")
-        put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/HomeboxQRDroid")
+        put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/homebox-qrdroid")
         put(MediaStore.Images.Media.IS_PENDING, 1)
     }
 
