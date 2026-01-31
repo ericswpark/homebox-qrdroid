@@ -1,11 +1,9 @@
 package com.ericswpark.homebox_qrdroid
 
-import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.os.Bundle
-import android.provider.MediaStore
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -46,15 +44,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.createBitmap
 import com.ericswpark.homebox_qrdroid.settings.SettingsActivity
 import com.ericswpark.homebox_qrdroid.settings.SettingsRepository
 import com.ericswpark.homebox_qrdroid.ui.theme.HomeboxqrdroidTheme
-import com.google.zxing.BarcodeFormat
-import com.google.zxing.qrcode.QRCodeWriter
+import com.ericswpark.homebox_qrdroid.utils.generateQrCode
+import com.ericswpark.homebox_qrdroid.utils.saveQrCodeToStorage
 import kotlinx.coroutines.launch
-import java.io.OutputStream
-import androidx.core.graphics.set
-import androidx.core.graphics.createBitmap
 
 class MainActivity : ComponentActivity() {
 
@@ -77,54 +73,19 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding),
                         homeboxServerUrl = homeboxServerUrl,
                         generateQrCode = ::generateQrCode,
-                        saveQrCode = ::saveQrCodeToStorage
+                        saveQrCode = { bitmap, displayName ->
+                            saveQrCodeToStorage(this, bitmap, displayName)
+                        }
                     )
                 }
             }
-        }
-    }
-
-    private fun generateQrCode(content: String): Bitmap {
-        val writer = QRCodeWriter()
-        val bitMatrix = writer.encode(content, BarcodeFormat.QR_CODE, 512, 512)
-        val width = bitMatrix.width
-        val height = bitMatrix.height
-        val bitmap = createBitmap(width, height, Bitmap.Config.RGB_565)
-        for (x in 0 until width) {
-            for (y in 0 until height) {
-                bitmap[x, y] = if (bitMatrix[x, y]) Color.BLACK else Color.WHITE
-            }
-        }
-        return bitmap
-    }
-
-    private fun saveQrCodeToStorage(bitmap: Bitmap, displayName: String) {
-        val values = ContentValues().apply {
-            put(MediaStore.Images.Media.DISPLAY_NAME, displayName)
-            put(MediaStore.Images.Media.MIME_TYPE, "image/png")
-            put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/HomeboxQRDroid")
-            put(MediaStore.Images.Media.IS_PENDING, 1)
-        }
-
-        val resolver = contentResolver
-        val uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
-
-        uri?.let {
-            val out: OutputStream? = resolver.openOutputStream(it)
-            out?.let {
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
-                it.close()
-            }
-            values.clear()
-            values.put(MediaStore.Images.Media.IS_PENDING, 0)
-            resolver.update(it, values, null, null)
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(modifier: Modifier = Modifier, context: android.content.Context = LocalContext.current) {
+fun TopBar(modifier: Modifier = Modifier, context: Context = LocalContext.current) {
     var showMenu by remember { mutableStateOf(false) }
 
     TopAppBar(
