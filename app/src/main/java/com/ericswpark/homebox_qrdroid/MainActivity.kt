@@ -70,7 +70,8 @@ fun TopBar(modifier: Modifier = Modifier, context: android.content.Context = Loc
                     contentDescription = "Settings"
                 )
             }
-        }
+        },
+        modifier = modifier
     )
 }
 
