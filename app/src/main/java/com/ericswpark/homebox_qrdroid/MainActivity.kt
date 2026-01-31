@@ -53,6 +53,8 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 import kotlinx.coroutines.launch
 import java.io.OutputStream
+import androidx.core.graphics.set
+import androidx.core.graphics.createBitmap
 
 class MainActivity : ComponentActivity() {
 
@@ -86,10 +88,10 @@ class MainActivity : ComponentActivity() {
         val bitMatrix = writer.encode(content, BarcodeFormat.QR_CODE, 512, 512)
         val width = bitMatrix.width
         val height = bitMatrix.height
-        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+        val bitmap = createBitmap(width, height, Bitmap.Config.RGB_565)
         for (x in 0 until width) {
             for (y in 0 until height) {
-                bitmap.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
+                bitmap[x, y] = if (bitMatrix[x, y]) Color.BLACK else Color.WHITE
             }
         }
         return bitmap
