@@ -2,6 +2,8 @@
 
 Small Android app to generate QR codes in Homebox asset ID format for printing on label makers
 
+![Main screen](./img/main.png)
+
 ## Why?
 
 The alternative (that I've been using for quite some time) is [homebox-auto-print][homebox-auto-print], which worked quite well with `ptouch-print` but was inconvenient to use, since you have to carry around a laptop.
