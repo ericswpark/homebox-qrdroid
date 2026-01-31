@@ -137,6 +137,13 @@ fun MainScreen(modifier: Modifier = Modifier) {
 @Composable
 fun MainScreenPreview() {
     HomeboxqrdroidTheme {
-        MainScreen()
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            topBar = {
+                TopBar()
+            }
+        ) { innerPadding ->
+            MainScreen(modifier = Modifier.padding(innerPadding))
+        }
     }
 }
