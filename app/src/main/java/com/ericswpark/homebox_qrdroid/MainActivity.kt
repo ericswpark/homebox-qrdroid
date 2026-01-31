@@ -178,13 +178,12 @@ fun MainScreen(
         Button(
             onClick = {
                 coroutineScope.launch {
-                    val url = homeboxServerUrl
-                    if (!url.isNullOrBlank() && assetId.isNotBlank()) {
+                    if (!homeboxServerUrl.isNullOrBlank() && assetId.isNotBlank()) {
                         val assetIdDigits = assetId.filter { it.isDigit() }
                         val paddedAssetId = assetIdDigits.padStart(6, '0')
                         val formattedAssetId =
                             "${paddedAssetId.take(3)}-${paddedAssetId.substring(3)}"
-                        val qrContent = "$url/a/$formattedAssetId"
+                        val qrContent = "$homeboxServerUrl/a/$formattedAssetId"
                         val bitmap = generateQrCode(qrContent, formattedAssetId)
 
                         val finalBitmap = if (cableMode) {
