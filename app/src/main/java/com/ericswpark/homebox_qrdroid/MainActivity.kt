@@ -3,6 +3,7 @@ package com.ericswpark.homebox_qrdroid
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -193,6 +194,7 @@ fun MainScreen(
                             val padding = 80
                             val newBitmap = createBitmap(bitmap.width * 2 + padding, bitmap.height, Bitmap.Config.ARGB_8888)
                             val canvas = android.graphics.Canvas(newBitmap)
+                            canvas.drawColor(Color.WHITE)
                             canvas.drawBitmap(bitmap, 0f, 0f, null)
                             canvas.drawBitmap(bitmap, (bitmap.width + padding).toFloat(), 0f, null)
                             newBitmap
