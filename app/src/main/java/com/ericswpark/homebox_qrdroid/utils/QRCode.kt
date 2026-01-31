@@ -20,6 +20,7 @@ import java.util.EnumMap
 
 
 const val QR_SIZE = 128
+const val TRIM_QUIET_ZONE = true
 
 fun getQrCodeMatrix(content: String): BitMatrix {
     val writer = QRCodeWriter()
@@ -31,7 +32,35 @@ fun getQrCodeMatrix(content: String): BitMatrix {
     return writer.encode(content, BarcodeFormat.QR_CODE, QR_SIZE, QR_SIZE, hints)
 }
 
-fun generateQrCode(content: String, label: String): Bitmap {
+fun getTrimmedQrCode(content: String): Bitmap {
+    val bitMatrix = getQrCodeMatrix(content)
+
+    var quietZoneWidth = 0
+    outer@ for (x in 0 until bitMatrix.width) {
+        for (y in 0 until bitMatrix.height) {
+            if (bitMatrix[x, y]) {
+                // First bit found
+                break@outer
+            }
+        }
+        quietZoneWidth += 1
+    }
+
+    val width = bitMatrix.width - 2 * quietZoneWidth
+    val height = bitMatrix.height - 2 * quietZoneWidth
+
+    val qrBitmap = createBitmap(width, height, Bitmap.Config.RGB_565)
+    for (x in quietZoneWidth until bitMatrix.width - quietZoneWidth) {
+        for (y in quietZoneWidth until bitMatrix.height - quietZoneWidth) {
+            qrBitmap[x - quietZoneWidth, y - quietZoneWidth] =
+                if (bitMatrix[x, y]) Color.BLACK else Color.WHITE
+        }
+    }
+
+    return qrBitmap
+}
+
+fun getQrCode(content: String): Bitmap {
     val bitMatrix = getQrCodeMatrix(content)
     val width = bitMatrix.width
     val height = bitMatrix.height
@@ -41,10 +70,21 @@ fun generateQrCode(content: String, label: String): Bitmap {
             qrBitmap[x, y] = if (bitMatrix[x, y]) Color.BLACK else Color.WHITE
         }
     }
+    return qrBitmap
+}
 
+fun generateQrCode(content: String, label: String): Bitmap {
+    val qrBitmap = if (TRIM_QUIET_ZONE) {
+        getTrimmedQrCode(content)
+    } else {
+        getQrCode(content)
+    }
     if (label.isBlank()) {
         return qrBitmap
     }
+
+    val width = qrBitmap.width
+    val height = qrBitmap.height
 
     val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.BLACK
@@ -56,7 +96,7 @@ fun generateQrCode(content: String, label: String): Bitmap {
     paint.getTextBounds(label, 0, label.length, textBounds)
 
     // Have label cut into border (quiet zone) of QR code
-    val borderCut = 5
+    val borderCut = if (TRIM_QUIET_ZONE) {0} else {5}
 
     val labelHeight = textBounds.height() - borderCut
 
