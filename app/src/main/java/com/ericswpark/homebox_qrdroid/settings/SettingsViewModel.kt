@@ -23,7 +23,8 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
     }
 }
 
-class SettingsViewModelFactory(private val repository: SettingsRepository) : ViewModelProvider.Factory {
+class SettingsViewModelFactory(private val repository: SettingsRepository) :
+    ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SettingsViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

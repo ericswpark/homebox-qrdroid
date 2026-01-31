@@ -66,20 +66,19 @@ class MainActivity : ComponentActivity() {
         setContent {
             HomeboxqrdroidTheme {
                 Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    topBar = {
+                    modifier = Modifier.fillMaxSize(), topBar = {
                         TopBar()
-                    }
-                ) { innerPadding ->
-                    val homeboxServerUrl by settingsRepository.homeboxServerUrl.collectAsState(initial = null)
+                    }) { innerPadding ->
+                    val homeboxServerUrl by settingsRepository.homeboxServerUrl.collectAsState(
+                        initial = null
+                    )
                     MainScreen(
                         modifier = Modifier.padding(innerPadding),
                         homeboxServerUrl = homeboxServerUrl,
                         generateQrCode = ::generateQrCode,
                         saveQrCode = { bitmap, displayName ->
                             saveQrCodeToStorage(this, bitmap, displayName)
-                        }
-                    )
+                        })
                 }
             }
         }
@@ -92,28 +91,20 @@ fun TopBar(modifier: Modifier = Modifier, context: Context = LocalContext.curren
     var showMenu by remember { mutableStateOf(false) }
 
     TopAppBar(
-        title = { Text("homebox-qrdroid") },
-        actions = {
+        title = { Text("homebox-qrdroid") }, actions = {
             IconButton(onClick = { showMenu = !showMenu }) {
                 Icon(
-                    imageVector = Icons.Default.MoreVert,
-                    contentDescription = "More"
+                    imageVector = Icons.Default.MoreVert, contentDescription = "More"
                 )
             }
             DropdownMenu(
-                expanded = showMenu,
-                onDismissRequest = { showMenu = false }
-            ) {
-                DropdownMenuItem(
-                    text = { Text("Settings") },
-                    onClick = {
-                        context.startActivity(Intent(context, SettingsActivity::class.java))
-                        showMenu = false
-                    }
-                )
+                expanded = showMenu, onDismissRequest = { showMenu = false }) {
+                DropdownMenuItem(text = { Text("Settings") }, onClick = {
+                    context.startActivity(Intent(context, SettingsActivity::class.java))
+                    showMenu = false
+                })
             }
-        },
-        modifier = modifier
+        }, modifier = modifier
     )
 }
 
@@ -165,8 +156,7 @@ fun MainScreen(
             Box(
                 modifier = Modifier
                     .weight(1f)
-                    .fillMaxWidth(),
-                contentAlignment = Alignment.Center
+                    .fillMaxWidth(), contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = Icons.Default.QrCode,
@@ -183,9 +173,7 @@ fun MainScreen(
         ) {
             Text("Cable")
             Switch(
-                checked = cableMode,
-                onCheckedChange = { cableMode = it }
-            )
+                checked = cableMode, onCheckedChange = { cableMode = it })
         }
         Button(
             onClick = {
@@ -194,13 +182,18 @@ fun MainScreen(
                     if (!url.isNullOrBlank() && assetId.isNotBlank()) {
                         val assetIdDigits = assetId.filter { it.isDigit() }
                         val paddedAssetId = assetIdDigits.padStart(6, '0')
-                        val formattedAssetId = "${paddedAssetId.take(3)}-${paddedAssetId.substring(3)}"
+                        val formattedAssetId =
+                            "${paddedAssetId.take(3)}-${paddedAssetId.substring(3)}"
                         val qrContent = "$url/a/$formattedAssetId"
                         val bitmap = generateQrCode(qrContent, formattedAssetId)
 
                         val finalBitmap = if (cableMode) {
                             val padding = 80
-                            val newBitmap = createBitmap(bitmap.width * 2 + padding, bitmap.height, Bitmap.Config.ARGB_8888)
+                            val newBitmap = createBitmap(
+                                bitmap.width * 2 + padding,
+                                bitmap.height,
+                                Bitmap.Config.ARGB_8888
+                            )
                             val canvas = android.graphics.Canvas(newBitmap)
                             canvas.drawColor(Color.WHITE)
                             canvas.drawBitmap(bitmap, 0f, 0f, null)
@@ -214,8 +207,7 @@ fun MainScreen(
                         saveQrCode(finalBitmap, "label-$formattedAssetId.png")
                     }
                 }
-            },
-            modifier = Modifier.fillMaxWidth()
+            }, modifier = Modifier.fillMaxWidth()
         ) {
             Text("Generate")
         }
@@ -227,17 +219,14 @@ fun MainScreen(
 fun MainScreenPreview() {
     HomeboxqrdroidTheme {
         Scaffold(
-            modifier = Modifier.fillMaxSize(),
-            topBar = {
+            modifier = Modifier.fillMaxSize(), topBar = {
                 TopBar()
-            }
-        ) { innerPadding ->
+            }) { innerPadding ->
             MainScreen(
                 modifier = Modifier.padding(innerPadding),
                 homeboxServerUrl = "https://homebox.example.com",
                 generateQrCode = { _, _ -> createBitmap(512, 512, Bitmap.Config.ARGB_8888) },
-                saveQrCode = { _, _ -> }
-            )
+                saveQrCode = { _, _ -> })
         }
     }
 }
