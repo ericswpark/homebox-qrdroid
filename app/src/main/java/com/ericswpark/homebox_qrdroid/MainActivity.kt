@@ -158,12 +158,7 @@ fun MainScreen(
                     .weight(1f)
                     .fillMaxWidth(), contentAlignment = Alignment.Center
             ) {
-                Icon(
-                    imageVector = Icons.Default.QrCode,
-                    contentDescription = "QR Code",
-                    modifier = Modifier.fillMaxSize(0.8f),
-                    tint = LocalContentColor.current.copy(alpha = 0.4f)
-                )
+                QRCodePlaceholder()
             }
         }
         Row(
@@ -211,6 +206,16 @@ fun MainScreen(
             Text("Generate")
         }
     }
+}
+
+@Composable
+fun QRCodePlaceholder() {
+    Icon(
+        imageVector = Icons.Default.QrCode,
+        contentDescription = "QR Code",
+        modifier = Modifier.fillMaxSize(0.8f),
+        tint = LocalContentColor.current.copy(alpha = 0.4f)
+    )
 }
 
 @Preview(showBackground = true)
