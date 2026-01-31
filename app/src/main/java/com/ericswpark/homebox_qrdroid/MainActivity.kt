@@ -92,7 +92,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
                     assetId = newText
                 }
             },
-            label = { Text("Enter asset ID") },
+            label = { Text("Enter asset ID (e.g. 000-456)") },
             modifier = Modifier
                 .fillMaxWidth()
                 .onFocusChanged {
