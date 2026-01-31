@@ -37,7 +37,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ericswpark.homebox_qrdroid.ui.theme.HomeboxqrdroidTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,19 +47,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     topBar = {
-                        TopAppBar(
-                            title = { Text("homebox-qrdroid") },
-                            actions = {
-                                IconButton(onClick = {
-                                    context.startActivity(Intent(context, SettingsActivity::class.java))
-                                }) {
-                                    Icon(
-                                        imageVector = Icons.Default.Settings,
-                                        contentDescription = "Settings"
-                                    )
-                                }
-                            }
-                        )
+                        TopBar()
                     }
                 ) { innerPadding ->
                     MainScreen(modifier = Modifier.padding(innerPadding))
@@ -68,6 +55,24 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TopBar(modifier: Modifier = Modifier, context: android.content.Context = LocalContext.current) {
+    TopAppBar(
+        title = { Text("homebox-qrdroid") },
+        actions = {
+            IconButton(onClick = {
+                context.startActivity(Intent(context, SettingsActivity::class.java))
+            }) {
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = "Settings"
+                )
+            }
+        }
+    )
 }
 
 @Composable
