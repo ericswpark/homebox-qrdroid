@@ -1,5 +1,7 @@
 # homebox-qrdroid
 
+Archived: switched to iPhone, can't work on this anymore. Feel free to fork or use the last release!
+
 Small Android app to generate QR codes in Homebox asset ID format for printing on label makers
 
 ![Main screen](./img/main.png)
